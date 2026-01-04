@@ -5,7 +5,7 @@ export default function Header() {
         {/* Logo */}
         {/* Logo */}
         <a href="/">
-          <img className="h-[45px]" src="/assets/lws-logo-en.svg" alt="Lws" />
+          <img className="h-[45px]" src="/assets/logo.png" alt="logo" />
         </a>
         {/* Logo Ends */}
         {/* Search Box */}

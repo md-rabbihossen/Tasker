@@ -7,8 +7,10 @@ export default function App() {
   return (
     <div className="bg-[#1D212B] text-white font-[Inter] max-md:px-4 lg:text-lg">
       <Header />
-      <HeroSection />
-      <TaskBoard />
+      <div className=" flex flex-col justify-center items-center">
+        <HeroSection />
+        <TaskBoard />
+      </div>
       <Footer />
     </div>
   );
