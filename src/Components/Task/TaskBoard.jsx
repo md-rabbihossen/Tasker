@@ -5,9 +5,11 @@ import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import TaskSearch from "./TaskSearch";
 export default function TaskBoard() {
-  function handleAddTask() {
-    console.log("Working");
+  function handleAddTask(newTask) {
+    setTasks([...tasks, newTask]);
+    setShowAddModal(false);
   }
+
   const defaultTask = {
     id: crypto.randomUUID(),
     title: "Learn React",
@@ -22,7 +24,7 @@ export default function TaskBoard() {
   const [showAddModal, setShowAddModal] = useState(false);
   return (
     <section className="mb-20" id="tasks">
-      {showAddModal && <AddTaskModal />}
+      {showAddModal && <AddTaskModal onSave={handleAddTask} />}
       <div className="container">
         {/* Search Box */}
         <div className="p-2 flex justify-end">
