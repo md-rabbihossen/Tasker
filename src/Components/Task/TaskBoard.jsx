@@ -5,11 +5,30 @@ import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import TaskSearch from "./TaskSearch";
 export default function TaskBoard() {
-  function handleAddTask(newTask) {
-    setTasks([...tasks, newTask]);
+  function handleAddTask(newTask, isAdd) {
+    if (isAdd) {
+      setTasks([...tasks, newTask]);
+    } else {
+      setTasks(
+        tasks.map((task) => {
+          if (newTask.id === task.id) {
+            return newTask;
+          }
+          return task;
+        })
+      );
+    }
     setShowAddModal(false);
   }
+  function handleEditTask(task) {
+    setTaskToUpdate(task);
+    setShowAddModal(true);
+  }
 
+  function handleCloseClick() {
+    setShowAddModal(false);
+    setTaskToUpdate(null);
+  }
   const defaultTask = {
     id: crypto.randomUUID(),
     title: "Learn React",
@@ -22,9 +41,16 @@ export default function TaskBoard() {
 
   const [tasks, setTasks] = useState([defaultTask]);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [taskToUpdate, setTaskToUpdate] = useState(null);
   return (
     <section className="mb-20" id="tasks">
-      {showAddModal && <AddTaskModal onSave={handleAddTask} />}
+      {showAddModal && (
+        <AddTaskModal
+          onSave={handleAddTask}
+          onClose={handleCloseClick}
+          taskToUpdate={taskToUpdate}
+        />
+      )}
       <div className="container">
         {/* Search Box */}
         <div className="p-2 flex justify-end">
@@ -33,7 +59,7 @@ export default function TaskBoard() {
         {/* Search Box Ends */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskAction onAddTask={() => setShowAddModal(true)} />
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} onEdit={handleEditTask} />
         </div>
       </div>
     </section>
