@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import AddTaskModal from "./AddTaskModal";
+import NoTaskFound from "./NoTaskFound";
 import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import TaskSearch from "./TaskSearch";
+
 export default function TaskBoard() {
   function handleAddTask(newTask, isAdd) {
     if (isAdd) {
@@ -49,6 +51,14 @@ export default function TaskBoard() {
     );
   }
 
+  function handleSearch(searchTerm) {
+    console.log(searchTerm);
+    const filtered = tasks.filter((task) =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setTasks(filtered);
+  }
+
   const defaultTask = {
     id: crypto.randomUUID(),
     title: "Learn React",
@@ -74,7 +84,7 @@ export default function TaskBoard() {
       <div className="container">
         {/* Search Box */}
         <div className="p-2 flex justify-end">
-          <TaskSearch />
+          <TaskSearch onSearch={handleSearch} />
         </div>
         {/* Search Box Ends */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
@@ -82,12 +92,16 @@ export default function TaskBoard() {
             onAddTask={() => setShowAddModal(true)}
             onDeleteAll={handleDeleteAll}
           />
-          <TaskList
-            tasks={tasks}
-            onEdit={handleEditTask}
-            onDelete={handleDelete}
-            onFav={handleFavourite}
-          />
+          {tasks.length > 0 ? (
+            <TaskList
+              tasks={tasks}
+              onEdit={handleEditTask}
+              onDelete={handleDelete}
+              onFav={handleFavourite}
+            />
+          ) : (
+            <NoTaskFound />
+          )}
         </div>
       </div>
     </section>
