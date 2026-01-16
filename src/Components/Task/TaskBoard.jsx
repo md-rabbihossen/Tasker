@@ -38,6 +38,17 @@ export default function TaskBoard() {
     setTasks([]);
   }
 
+  function handleFavourite(taskId) {
+    setTasks((tasks) =>
+      tasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, isFavorite: !task.isFavorite };
+        }
+        return task;
+      })
+    );
+  }
+
   const defaultTask = {
     id: crypto.randomUUID(),
     title: "Learn React",
@@ -75,6 +86,7 @@ export default function TaskBoard() {
             tasks={tasks}
             onEdit={handleEditTask}
             onDelete={handleDelete}
+            onFav={handleFavourite}
           />
         </div>
       </div>
